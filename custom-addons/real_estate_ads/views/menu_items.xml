@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem name="Бүтээгдэхүүний мэдээллүүд" id="menu_root_property_ads" web_icon="real_estate_ads,static/description/icon.png">
+        <menuitem id="menu_property_ads" name="Сурталчилгаа">
+            <menuitem id="menu_property" name="Бүтээгдэхүүнүүд" action="real_estate_ads.action_property"/>
+        </menuitem>
+        <menuitem id="menu_property_ads_settings" name="Тохиргоо">
+            <menuitem id="menu_property_type" name="Бүтээгдэхүүний төрлүүд" action="real_estate_ads.action_property_type"/>
+            <menuitem id="menu_property_tag" name="Бүтээгдэхүүний тэмдэг" action="real_estate_ads.action_property_tag" groups="real_estate_ads.group_property_manager"/>
+            <menuitem id="menu_property_offers" name="Санал болгох бүтээгдэхүүн" action="real_estate_ads.action_property_offers"/>
+            <menuitem id="menu_test_client_action" name="Test Client Action" action="real_estate_ads.action_custom_client_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>

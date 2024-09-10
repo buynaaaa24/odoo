@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Define the action to view offers -->
+        <record id="action_property_view_offers" model="ir.actions.act_window">
+            <field name="name">Бүтээгдэхүүн</field>
+            <field name="res_model">estate.property.offer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('property_id', '=', active_id)]</field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="estate_property_tree_view" model="ir.ui.view">
+            <field name="name">estate.property.tree</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="type_id"/>
+                    <field name="postcode"/>
+                    <field name="date_availability"/>
+                    <field name="expected_price"/>
+                    <field name="best_offer"/>
+                    <field name="selling_price"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Other Views -->
+        <record id="estate_property_pivot_view" model="ir.ui.view">
+            <field name="name">estate.property.pivot</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="name" type="row"/>
+                    <field name="selling_price" type="measure"/>
+                    <field name="expected_price" type="measure"/>
+                    <field name="facade" type="measure"/>
+                    <field name="bedrooms" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="estate_property_graph_view" model="ir.ui.view">
+            <field name="name">estate.property.graph</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="name"/>
+                    <field name="selling_price" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="estate_property_search_view" model="ir.ui.view">
+            <field name="name">estate.property.search</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="postcode"/>
+                    <field name="buyer_id"/>
+                    <filter string="Зарагдсан" name="sold_state" domain="[('state','=', 'sold')]"/>
+                    <filter string="Шинэ" name="new_state" domain="[('state','=', 'new')]"/>
+                    <filter string="Received" name="received_state" domain="[('state','=', 'received')]"/>
+                    <filter string="Зөвшөөрсөн" name="accepted_state" domain="[('state','=', 'accepted')]"/>
+                    <filter string="Татгалзсан" name="refused_state" domain="[('state','=', 'refused')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Төлөв" name="group_by_state" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="estate_property_kanban_view" model="ir.ui.view">
+            <field name="name">estate.property.kanban</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" on_create="quick_create" quick_create_view="real_estate_ads.quick_create_estate_property_form_view">
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="postcode"/>
+                    <field name="buyer_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click"></div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <field name="name"/>
+                                <div class="o_kanban_tags_selection">
+                                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="offer_count"/> Саналууд
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="quick_create_estate_property_form_view" model="ir.ui.view">
+            <field name="name">estate.property.form</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="estate_property_calendar_view" model="ir.ui.view">
+            <field name="name">estate.property.calendar</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date_availability" string="Properties" mode="month">
+                    <field name="name"/>
+                    <field name="date_availability"/>
+                    <field name="postcode"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="estate_property_form_view" model="ir.ui.view">
+            <field name="name">estate.property.form</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_sold" type="object" string="Sold" class="btn btn-primary"/>
+                        <button name="action_cancel" type="object" string="Cancel" class="btn btn-danger"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="action_property_view_offers" type="object" string="View Offers" icon="fa-handshake-o">
+                                <field name="offer_count" string="Саналууд" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" name="action_url_action" type="object" string="View Offers" icon="fa-handshake-o">
+                                <field name="offer_count" string="Үзэх" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" widget="char_emojis" placeholder="Бүтээгдэхүүний нэр"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <group>
+                                <field name="state"/>
+                                <field name="type_id"/>
+                                <field name="postcode" password="True"/>
+                                <field name="date_availability"/>
+                            </group>
+                            <group>
+                                <field name="expected_price"/>
+                                <field name="best_offer"/>
+                                <field name="selling_price"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Мэдээлэл">
+                                <group>
+                                    <field name="description"/>
+                                    <field name="bedrooms"/>
+                                    <field name="living_area"/>
+                                    <field name="facade"/>
+                                    <field name="garage" widget="boolean_toggle"/>
+                                    <field name="garden" widget="boolean_toggle"/>
+                                    <field name="garden_area"/>
+                                    <field name="garden_orientation" widget="selection_badge"/>
+                                    <field name="total_area"/>
+                                </group>
+                            </page>
+                            <page string="Саналууд">
+                                <field name="offer_ids">
+                                    <tree editable="bottom" decoration-success="status == 'хүлээж авсан'" decoration-danger="status == 'татгалзсан'">
+                                        <field name="price"/>
+                                        <field name="partner_id"/>
+                                        <field name="creation_date" invisible="1"/>
+                                        <field name="validity"/>
+                                        <field name="deadline" widget="remaining_days"/>
+                                        <field name="status" readonly="1"/>
+                                        <button class="btn btn-primary" name="action_accept_offer" type="object" icon="fa-check" string="Accept"/>
+                                        <button class="btn btn-danger" name="action_decline_offer" type="object" icon="fa-times" string="Decline"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Нэмэлт мэдээлэл">
+                                <group>
+                                    <field name="sales_id" widget="many2one_avatar_employee"/>
+                                    <field name="buyer_id"/>
+                                    <field name="phone" widget="phone"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_property" model="ir.actions.act_window">
+            <field name="name">Бүтээгдэхүүн</field>
+            <field name="res_model">estate.property</field>
+            <field name="view_mode">kanban,graph,calendar,pivot,tree,form</field>
+            <field name="view_id" ref="estate_property_tree_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Сурталчлах бүтээгдэхүүнээ бүтээгээрэй.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_custom_client_action" model="ir.actions.client">
+            <field name="name">Custom Client Action</field>
+            <field name="tag">custom_client_action</field>
+        </record>
+
+        <record id="action_extend_offer_deadline" model="ir.actions.server">
+            <field name="name">Дуусах хугацаа сунгах</field>
+            <field name="model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="code">
+               action = model.extend_offer_deadline()
+            </field>
+        </record>
+
+        <record id="ir_cron_extend_offer_deadline" model="ir.cron">
+            <field name="name">Offers: Extend Deadline Everyday</field>
+            <field name="model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <field name="state">code</field>
+            <field name="code">model._extend_offer_deadline()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+    </data>
+</odoo>
