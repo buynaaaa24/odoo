@@ -14,6 +14,7 @@
                     <field name="property_id"/>
                     <field name="validity"/>
                     <field name="deadline"/>
+                    <field name="currency_id" invisible="1"/>
                 </tree>
             </field>
           </record>
@@ -26,10 +27,11 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="price"/>
+                                <field name="price" widget="monetary"/>
                                 <field name="status"/>
                                 <field name="partner_id"/>
                                 <field name="property_id"/>
+                                <field name="currency_id" invisible="1"/>
                             </group>
                             <group>
                                 <field name="creation_date" readonly="1"/>

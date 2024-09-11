@@ -19,10 +19,10 @@
                     <field name="type_id"/>
                     <field name="postcode"/>
                     <field name="date_availability"/>
-                    <field name="expected_price"/>
-                    <field name="best_offer"/>
-                    <field name="selling_price"/>
-                    <field name="state" widget="badge"/>
+                    <field name="expected_price" widget="monetary"/>
+                    <field name="best_offer" widget="monetary"/>
+                    <field name="selling_price" widget="monetary"/>
+                    <field name="currency_id" options="1"/>
                 </tree>
             </field>
         </record>
@@ -110,6 +110,7 @@
         <record id="quick_create_estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
             <field name="model">estate.property</field>
+            <field name="priority">1000</field>
             <field name="arch" type="xml">
                 <form>
                     <group>
@@ -140,15 +141,13 @@
                     <header>
                         <button name="action_sold" type="object" string="Sold" class="btn btn-primary"/>
                         <button name="action_cancel" type="object" string="Cancel" class="btn btn-danger"/>
+                        <button name="action_send_email" type="object" string="Send Email" class="btn btn-danger"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" name="action_property_view_offers" type="object" string="View Offers" icon="fa-handshake-o">
                                 <field name="offer_count" string="Саналууд" widget="statinfo"/>
-                            </button>
-                            <button class="oe_stat_button" name="action_url_action" type="object" string="View Offers" icon="fa-handshake-o">
-                                <field name="offer_count" string="Үзэх" widget="statinfo"/>
                             </button>
                         </div>
                         <group>
@@ -161,9 +160,10 @@
                                 <field name="date_availability"/>
                             </group>
                             <group>
-                                <field name="expected_price"/>
-                                <field name="best_offer"/>
-                                <field name="selling_price"/>
+                                <field name="expected_price" groups="real_estate_ads.group_property_manager" widget="monetary"/>
+                                <field name="best_offer" widget="monetary"/>
+                                <field name="selling_price" widget="monetary"/>
+                                <field name="currency_id" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -183,7 +183,8 @@
                             <page string="Саналууд">
                                 <field name="offer_ids">
                                     <tree editable="bottom" decoration-success="status == 'хүлээж авсан'" decoration-danger="status == 'татгалзсан'">
-                                        <field name="price"/>
+                                        <field name="price" widget="monetary"/>
+                                        <field name="currency_id" invisible="1"/>
                                         <field name="partner_id"/>
                                         <field name="creation_date" invisible="1"/>
                                         <field name="validity"/>
@@ -203,6 +204,11 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>

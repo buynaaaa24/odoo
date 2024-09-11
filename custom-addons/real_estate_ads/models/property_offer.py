@@ -33,14 +33,17 @@ class PropertyOffer(models.Model):
                 rec.name = False
 
     name = fields.Char(string="Тайлбар", compute =_compute_name)
-    price = fields.Float(string="Үнэ")
+    price = fields.Monetary(string="Үнэ")
     status = fields.Selection(
         [('хүлээж авсан', 'ХҮЛЭЭЖ АВСАН'), ('татгалзсан', 'ТАТГАЛЗСАН')],
         string="Төлөв")
     partner_id = fields.Many2one('res.partner', string="Хэрэглэгч")
+    # partner_mail = fields.Char(string="Хэрэглэгчийн Email", related='partner_id.email')
     property_id = fields.Many2one('estate.property', string="Бүтээгдэхүүн")
     validity = fields.Integer(string="Validity", default=7)
     deadline = fields.Date(string="Dead Line", compute='_compute_deadline', inverse='_inverse_deadline')
+    currency_id = fields.Many2one("res.currency", string="Ханш",
+                                  default=lambda self: self.env.user.company_id.currency_id)
 
     @api.model
     def _set_create_date(self):

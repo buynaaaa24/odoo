@@ -7,7 +7,7 @@
         Real Estate module to show available properties
         """,
     "category":"Sales",
-    "depends":["base"],
+    'depends': ['base', 'mail'],
     "data":[
         'security/ir.model.access.csv',
         'security/res_groups.xml',
@@ -20,8 +20,12 @@
 
         # Data Files
         #'data/property_type.xml'
-        'data/estate.property.type.csv'
-        ],
+        'data/estate.property.type.csv',
+        'data/mail_template.xml',
+        
+        'report/report_template.xml',
+        'report/property_report.xml',
+    ],
         'demo':[
             'demo/property_tag.xml'
         ],

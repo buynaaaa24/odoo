@@ -7,6 +7,7 @@ from odoo.tools.populate import compute
 
 class Property(models.Model):
     _name = 'estate.property'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Зарагдах хөрөнгүүд'
 
     name = fields.Char(string="Name", required=True)
@@ -17,7 +18,7 @@ class Property(models.Model):
         ('зарагдсан', 'Зарагдсан'),
         ('цуцлах', 'Цуцлагдсан'),
         ('хүлээж авсан', 'Хүлээж авсан')  # Added this value
-    ], default='шинэ', string='Status')
+    ], default='шинэ', string='Status', group_expand='_expand_state')
 
 
     tag_ids = fields.Many2many('estate.property.tag', string="Бүтээгдэхүүний тэмдэг")
@@ -25,9 +26,9 @@ class Property(models.Model):
     description = fields.Text(string="Тайлбар")
     postcode = fields.Text(string="Посскод")
     date_availability = fields.Date(string="Хугацаа")
-    expected_price = fields.Float(string="Хүссэн үнэ")
-    best_offer = fields.Float(string="Санал болгох үнэ", compute='_compute_best_price')
-    selling_price = fields.Float(string="Зарах үнэ", readonly=True)
+    expected_price = fields.Monetary(string="Хүссэн үнэ", tracking=True)
+    best_offer = fields.Monetary(string="Санал болгох үнэ", compute='_compute_best_price')
+    selling_price = fields.Monetary(string="Зарах үнэ", readonly=True)
     bedrooms = fields.Integer(string="Унтлагийн өрөө")
     living_area = fields.Integer(string="Өрөөний хэмжээ(м.кв)")
     facade = fields.Integer(string="facade")
@@ -41,13 +42,15 @@ class Property(models.Model):
     sales_id = fields.Many2one('res.users', string="Агент")
     buyer_id = fields.Many2one('res.partner', string="Худалдан авагч")
     phone = fields.Char(string="Утас", related='buyer_id.phone')
+    currency_id = fields.Many2one("res.currency", string="Ханш",
+                                  default=lambda self: self.env.user.company_id.currency_id)
 
+    @api.depends('living_area', 'garden_area')
+    def _compute_total_area(self):
+        for rec in self:
+            rec.total_area = rec.living_area + rec.garden_area
 
-    @api.onchange('living_area','garden_area')
-    def _onchange_total_area(self):
-        self.total_area = self.living_area + self.garden_area
-
-    total_area = fields.Integer(string="Нийт хэмжээ",compute=_onchange_total_area)
+    total_area = fields.Integer(string="Нийт хэмжээ", compute='_compute_total_area')
 
     def action_sold(self):
         self.state = 'зарагдсан'
@@ -67,12 +70,10 @@ class Property(models.Model):
     def action_property_view_offers(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': f"{self.name} - 'Offers",
-            'domain':[('property_id', '=', self.id)],
+            'name': f"{self.name} - Offers",
+            'domain': [('property_id', '=', self.id)],
             'view_mode': 'tree',
-            'view mode': 'tree',
             'res_model': 'estate.property.offer',
-
         }
 
     @api.depends('offer_ids')
@@ -89,6 +90,25 @@ class Property(models.Model):
             'url': 'https://www.realtor.com/realestateandhomes-search/Minneapolis_MN/show-newest-listings/sby-6',
             'target': 'new',
         }
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return 'Estate Property - %s' % self.name
+
+    # def _compute_website_url(self):
+    #     for rec in self:
+    #         rec.website_url = "/properties/%s" % rec.id
+
+    def action_send_email(self):
+        mail_template = self.env.ref('real_estate_ads.offer_mail_template')
+        mail_template.send_mail(self.id, force_send=True)
+
+    # def _get_emails(self):
+    #     return ','.join(self.offer_ids.mapped('partner_email'))
+
+    def _expand_state(self, states, domain, order):
+        return[
+            key for key, dummy in type(self).state.selection
+        ]
 
 
 class PropertyType(models.Model):
