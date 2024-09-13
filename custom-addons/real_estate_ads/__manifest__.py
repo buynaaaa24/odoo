@@ -7,7 +7,7 @@
         Real Estate module to show available properties
         """,
     "category":"Sales",
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'website'],
     "data":[
         'security/ir.model.access.csv',
         'security/res_groups.xml',
@@ -17,6 +17,7 @@
         'views/property_tag_view.xml',
         'views/property_offer_view.xml',
         'views/menu_items.xml',
+        'views/property_web_template.xml',
 
         # Data Files
         #'data/property_type.xml'
@@ -39,5 +40,7 @@
         },
         "installable": True,
         "application": True,
-        "license":"GPL-3"
+        "license":"GPL-3",
+        "currency": "MNT",
+        "pricee":"590.000"
 }

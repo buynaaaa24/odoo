@@ -41,7 +41,7 @@
                 </pivot>
             </field>
         </record>
-
+a
         <record id="estate_property_graph_view" model="ir.ui.view">
             <field name="name">estate.property.graph</field>
             <field name="model">estate.property</field>

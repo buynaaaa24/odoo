@@ -1,0 +1,30 @@
+<odoo>
+    <template id="property_list" name="Properties">
+        <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <h3>Available Properties</h3>
+                </div>
+                <table class="table-striped table">
+                    <thead>
+                        <tr>
+                            <th>Хөрөнгийн нэр</th>
+                            <th>Хүсэж буй үнэ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="property_ids" t-as="property">
+                            <tr>
+                                <td><t t-esc="property.name"/></td>
+                                <td><t t-esc="property.expected_price"/></td>
+                            </tr>
+                        </t>
+                        <t t-if="2>1">
+                            <p>Hi</p>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

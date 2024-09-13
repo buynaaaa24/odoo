@@ -1,9 +1,14 @@
 <templates>
-    <t t-name="CustomActions">
+    <t t-name="CustomActions" t-inherit="web.templatename" t-inherit-mode="primary">
         <div>
             <h3>
                 Custom Actions
             </h3>
         </div>
+        <xpath expr="//table" position="attributes">
+            <attribute>
+                <attribute name="widget">badge</attribute>
+            </attribute>
+        </xpath>
     </t>
 </templates>
