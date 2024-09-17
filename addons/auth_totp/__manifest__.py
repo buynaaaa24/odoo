@@ -18,7 +18,7 @@ can setup API keys to replace their main password.
     'category': 'Extra Tools',
     'auto_install': True,
     'data': [
-        'security/security.xml',
+        'security/security.py',
         'security/ir.model.access.csv',
         'data/ir_action_data.xml',
         'views/res_users_views.xml',

@@ -4,7 +4,7 @@
     'depends': ['portal', 'auth_totp'],
     'auto_install': True,
     'data': [
-        'security/security.xml',
+        'security/security.py',
         'views/templates.xml',
     ],
     'assets': {

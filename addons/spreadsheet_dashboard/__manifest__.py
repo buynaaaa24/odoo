@@ -10,7 +10,7 @@
     "installable": True,
     "license": "LGPL-3",
     "data": [
-        "security/security.xml",
+        "security/security.py",
         "security/ir.model.access.csv",
         "views/spreadsheet_dashboard_views.xml",
         "views/menu_views.xml",

@@ -12,7 +12,7 @@
         'website_event_jitsi',
     ],
     'data': [
-        'security/security.xml',
+        'security/security.py',
         'security/ir.model.access.csv',
         'data/event_sponsor_data.xml',
         'report/website_event_exhibitor_reports.xml',

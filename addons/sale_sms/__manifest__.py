@@ -10,7 +10,7 @@
     'depends': ['sale', 'sms'],
     'data': [
         'security/ir.model.access.csv',
-        'security/security.xml',
+        'security/security.py',
     ],
     'auto_install': True,
     'license': 'LGPL-3',

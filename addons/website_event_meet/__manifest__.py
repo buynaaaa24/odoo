@@ -15,7 +15,7 @@
     'demo': ['data/website_event_meet_demo.xml'],
     'data': [
         'security/ir.model.access.csv',
-        'security/security.xml',
+        'security/security.py',
         'views/event_meet_templates_list.xml',
         'views/event_meet_templates_page.xml',
         'views/event_meeting_room_views.xml',

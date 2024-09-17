@@ -7,7 +7,7 @@
     'category': 'Human Resources/Remote Work',
     'depends': ['hr', 'calendar'],
     'data': [
-        'security/security.xml',
+        'security/security.py',
         'security/ir.model.access.csv',
         'views/hr_employee_views.xml',
         'views/res_users.xml',

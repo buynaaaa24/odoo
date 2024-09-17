@@ -1507,7 +1507,7 @@ Attempting to double-book your time off won't magically make your vacation 2x be
                 else:
                     if val_type == 'no_validation' and current_employee == holiday.employee_id and (is_officer or is_manager):
                         continue
-                    # use ir.rule based first access check: department, members, ... (see security.xml)
+                    # use ir.rule based first access check: department, members, ... (see security.py)
                     holiday.check_access_rule('write')
 
                     # This handles states validate1 validate and refuse

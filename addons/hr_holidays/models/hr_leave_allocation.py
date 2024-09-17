@@ -842,7 +842,7 @@ class HolidaysAllocation(models.Model):
                 raise UserError(_('Only a time off Officer/Responsible or Manager can approve or refuse time off requests.'))
 
             if is_officer or self.env.user == allocation.employee_id.leave_manager_id:
-                # use ir.rule based first access check: department, members, ... (see security.xml)
+                # use ir.rule based first access check: department, members, ... (see security.py)
                 allocation.check_access_rule('write')
 
             if allocation.employee_id == current_employee and not is_manager and not val_type == 'no':

@@ -5,7 +5,7 @@
     'category': 'Hidden/Tests',
     'data': [
         'ir.model.access.csv',
-        'security.xml',
+        'security.py',
         'data.xml',
     ],
     'license': 'LGPL-3',
