@@ -1,0 +1,26 @@
+<!-- views/employee_dashboard_template.xml -->
+<odoo>
+    <template id="employee_dashboard_template">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Employee Dashboard</h1>
+                <t t-if="tasks">
+                    <h2>My Tasks</h2>
+                    <ul>
+                        <t t-foreach="tasks" t-as="task">
+                            <li><t t-esc="task.name"/></li>
+                        </t>
+                    </ul>
+                </t>
+                <t t-if="companies">
+                    <h2>Connected Companies</h2>
+                    <ul>
+                        <t t-foreach="companies" t-as="company">
+                            <li><t t-esc="company.name"/></li>
+                        </t>
+                    </ul>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

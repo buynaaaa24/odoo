@@ -1,0 +1,7 @@
+<!-- security/security.py -->
+<odoo>
+    <record id="group_employee" model="res.groups">
+        <field name="name">Employee</field>
+        <field name="category_id" ref="base.module_category_hr"/>
+    </record>
+</odoo>
