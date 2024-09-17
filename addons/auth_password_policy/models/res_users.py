@@ -10,7 +10,7 @@ class ResUsers(models.Model):
     def get_password_policy(self):
         params = self.env['ir.config_parameter'].sudo()
         return {
-            'minlength': int(params.get_param('auth_password_policy.minlength', default=0)),
+            'minlength': int(params.get_param('auth_password_policy.minlength', default=6)),
         }
 
     def _set_password(self):
@@ -22,7 +22,7 @@ class ResUsers(models.Model):
         failures = []
         params = self.env['ir.config_parameter'].sudo()
 
-        minlength = int(params.get_param('auth_password_policy.minlength', default=0))
+        minlength = int(params.get_param('auth_password_policy.minlength', default=6))
         for password in passwords:
             if not password:
                 continue
