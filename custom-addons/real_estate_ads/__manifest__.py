@@ -16,7 +16,7 @@
         "views/property_offer_view.xml",
         "views/menu_items.xml",
         "views/property_web_template.xml",
-        "views/employee_view.xml",
+        "views/menu_items.xml",
         "data/estate.property.type.csv",
         "data/mail_template.xml",
         "report/report_template.xml",

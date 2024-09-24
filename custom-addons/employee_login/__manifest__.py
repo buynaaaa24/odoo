@@ -11,8 +11,11 @@
         'security/security.xml',  # Security rules and access control
         'views/employee_view.xml',  # Employee form view customization
         'views/employee_dashboard_template.xml',  # Dashboard template
-        'data/data.xml',  # Initial data or demo data if needed
+        'views/employee_login_template.xml',
+        'views/menu_items.xml',
+        'views/employee_login_view.xml',
     ],
-    'installable': True,
-    'application': True,
+    "installable": True,
+    "application": True,
+    "license": "GPL-3",
 }
